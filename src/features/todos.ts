@@ -4,5 +4,8 @@ import { Todo } from '../types/Todo';
 export const todosSlice = createSlice({
   name: 'todos',
   initialState: [] as Todo[],
-  reducers: {},
+  reducers: {
+    addTodos() {},
+    filteredTodos() {},
+  },
 });
