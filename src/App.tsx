@@ -9,15 +9,17 @@ import { useEffect, useState } from 'react';
 import { setTodos } from './features/todos';
 
 export const App = () => {
-  const [isLoader, setIsLoader] = useState(true);
+  const [isLoader, setIsLoader] = useState(false);
 
   const dispatch = useDispatch();
   const currentTodo = useAppSelector(state => state.currentTodo);
 
   useEffect(() => {
+    setIsLoader(true);
     const fetchTodos = async () => {
       try {
         const todos = await getTodos();
+
         dispatch(setTodos(todos));
       } catch (error) {
       } finally {
@@ -44,7 +46,6 @@ export const App = () => {
         </div>
       </div>
       {currentTodo && <TodoModal />}
-      {/* <TodoModal /> */}
     </>
   );
 };

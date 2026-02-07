@@ -1,23 +1,19 @@
 import React, { useEffect } from 'react';
 import { useAppSelector } from '../../app/hooks';
 import { useDispatch } from 'react-redux';
-import { setStatus } from '../../features/filter';
+import { setQuery, setStatus } from '../../features/filter';
 
 export const TodoFilter: React.FC = () => {
-const status = useAppSelector(state => state.filter.status);
-const search = useAppSelector(state => state.filter.query);
-const dispatch = useDispatch();
+  const search = useAppSelector(state => state.filter.query);
+  const dispatch = useDispatch();
 
-const handleStatusChange = (event:React.ChangeEvent<HTMLSelectElement>)=>{
-  dispatch(setStatus(event.target.value));
-}
+  const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    dispatch(setStatus(event.target.value));
+  };
 
-
-
-useEffect(() => {
-  console.log('Status changed:', status);
-},[status]);
-
+  const handleChangeQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setQuery(event.target.value));
+  };
 
   return (
     <form
@@ -40,6 +36,8 @@ useEffect(() => {
           type="text"
           className="input"
           placeholder="Search..."
+          value={search}
+          onChange={handleChangeQuery}
         />
         <span className="icon is-left">
           <i className="fas fa-magnifying-glass" />
@@ -51,6 +49,7 @@ useEffect(() => {
             data-cy="clearSearchButton"
             type="button"
             className="delete"
+            onClick={() => dispatch(setQuery(''))}
           />
         </span>
       </p>
