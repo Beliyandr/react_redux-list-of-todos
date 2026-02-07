@@ -5,10 +5,28 @@ import { Todo } from './types/Todo';
 import { getTodos } from './api';
 import { useAppSelector } from './app/hooks';
 import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { setTodos } from './features/todos';
 
 export const App = () => {
+  const [isLoader, setIsLoader] = useState(true);
+
   const dispatch = useDispatch();
-  const todos = useAppSelector(state => state.todos);
+  const currentTodo = useAppSelector(state => state.currentTodo);
+
+  useEffect(() => {
+    const fetchTodos = async () => {
+      try {
+        const todos = await getTodos();
+        dispatch(setTodos(todos));
+      } catch (error) {
+      } finally {
+        setIsLoader(false);
+      }
+    };
+
+    fetchTodos();
+  }, []);
 
   return (
     <>
@@ -21,14 +39,11 @@ export const App = () => {
               <TodoFilter />
             </div>
 
-            <div className="block">
-              {/* <Loader /> */}
-              <TodoList />
-            </div>
+            <div className="block">{isLoader ? <Loader /> : <TodoList />}</div>
           </div>
         </div>
       </div>
-
+      {currentTodo && <TodoModal />}
       {/* <TodoModal /> */}
     </>
   );
