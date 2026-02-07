@@ -15,3 +15,6 @@ export const currentTodoSlice = createSlice({
     },
   },
 });
+
+export default currentTodoSlice.reducer;
+export const { addCurrentTodo, removeCurrentTodo } = currentTodoSlice.actions;

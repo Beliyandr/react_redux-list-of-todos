@@ -5,9 +5,23 @@ import classNames from 'classnames';
 
 export const TodoList: React.FC = () => {
   const todos = useAppSelector(state => state.todos);
-  const [search, setSearch] = useState('');
+  const search = useAppSelector(state => state.filter.query);
+const status = useAppSelector(state => state.filter.status);
 
-  const filteredTodos = todos.filter(todo => todo.title.includes(search));
+  const filteredTodos =  filteredTodosByStatus(status)
+
+function filteredTodosByStatus(statusName:string){
+  switch (statusName) {
+    case 'all':
+      return todos.filter(todo => todo.title.includes(search));
+    case 'active':
+      return todos.filter(todo => !todo.completed && todo.title.includes(search));
+    case 'completed':
+      return todos.filter(todo => todo.completed && todo.title.includes(search));
+    default:
+      return todos.filter(todo => todo.title.includes(search));
+  }
+}
 
   return (
     <>

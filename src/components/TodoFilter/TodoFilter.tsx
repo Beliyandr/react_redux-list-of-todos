@@ -1,6 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useAppSelector } from '../../app/hooks';
+import { useDispatch } from 'react-redux';
+import { setStatus } from '../../features/filter';
 
 export const TodoFilter: React.FC = () => {
+const status = useAppSelector(state => state.filter.status);
+const search = useAppSelector(state => state.filter.query);
+const dispatch = useDispatch();
+
+const handleStatusChange = (event:React.ChangeEvent<HTMLSelectElement>)=>{
+  dispatch(setStatus(event.target.value));
+}
+
+
+
+useEffect(() => {
+  console.log('Status changed:', status);
+},[status]);
+
+
   return (
     <form
       className="field has-addons"
@@ -8,7 +26,7 @@ export const TodoFilter: React.FC = () => {
     >
       <p className="control">
         <span className="select">
-          <select data-cy="statusSelect">
+          <select data-cy="statusSelect" onChange={handleStatusChange}>
             <option value="all">All</option>
             <option value="active">Active</option>
             <option value="completed">Completed</option>
