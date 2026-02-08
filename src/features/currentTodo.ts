@@ -3,8 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import { Todo } from '../types/Todo';
 
 export type CurrentTodoType = {
-  todo: Todo | null;
-  user: User | null;
+  todo: Todo;
+  user?: User;
 };
 
 const initialState: CurrentTodoType | null = null;

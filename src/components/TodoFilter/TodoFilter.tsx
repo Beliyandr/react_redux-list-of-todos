@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
-import { useAppSelector } from '../../app/hooks';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { setQuery, setStatus } from '../../features/filter';
 
 export const TodoFilter: React.FC = () => {
   const search = useAppSelector(state => state.filter.query);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch(setStatus(event.target.value));

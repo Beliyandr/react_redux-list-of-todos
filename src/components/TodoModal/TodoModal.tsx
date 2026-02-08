@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Loader } from '../Loader';
-import { useAppSelector } from '../../app/hooks';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { CurrentTodoType, removeCurrentTodo } from '../../features/currentTodo';
 
 export const TodoModal: React.FC = () => {
   const { user, todo } = useAppSelector<CurrentTodoType>(
     state => state.currentTodo,
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [isLoader, setIsLoader] = useState(true);
 
   useEffect(() => {
-    if (user?.name) {
-      setIsLoader(false);
+    if (user === null) {
+      setIsLoader(true);
     }
+    setIsLoader(false);
   }, [user]);
 
   return (
