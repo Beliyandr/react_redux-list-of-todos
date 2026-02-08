@@ -2,7 +2,12 @@ import { User } from './../types/User';
 import { createSlice } from '@reduxjs/toolkit';
 import { Todo } from '../types/Todo';
 
-const initialState: { todo: Todo; user: User } | null = null;
+export type CurrentTodoType = {
+  todo: Todo | null;
+  user: User | null;
+};
+
+const initialState: CurrentTodoType | null = null;
 
 export const currentTodoSlice = createSlice({
   name: 'currentTodo',

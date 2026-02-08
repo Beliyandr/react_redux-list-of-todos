@@ -1,18 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Loader } from '../Loader';
 import { useAppSelector } from '../../app/hooks';
 import { useDispatch } from 'react-redux';
-import { removeCurrentTodo } from '../../features/currentTodo';
+import { CurrentTodoType, removeCurrentTodo } from '../../features/currentTodo';
 
 export const TodoModal: React.FC = () => {
-  const { user, todo } = useAppSelector(state => state.currentTodo);
+  const { user, todo } = useAppSelector<CurrentTodoType>(
+    state => state.currentTodo,
+  );
   const dispatch = useDispatch();
+  const [isLoader, setIsLoader] = useState(true);
+
+  useEffect(() => {
+    if (user?.name) {
+      setIsLoader(false);
+    }
+  }, [user]);
 
   return (
     <div className="modal is-active" data-cy="modal">
       <div className="modal-background" />
 
-      {!todo && <Loader />}
+      {isLoader && <Loader />}
 
       <div className="modal-card">
         <header className="modal-card-head">
@@ -34,21 +43,21 @@ export const TodoModal: React.FC = () => {
 
         <div className="modal-card-body">
           <p className="block" data-cy="modal-title">
-            {todo.title}
+            {todo?.title}
           </p>
 
           <p className="block" data-cy="modal-user">
             {/* For not completed */}
-            {!todo.completed && (
+            {!todo?.completed && (
               <strong className="has-text-danger">Planned</strong>
             )}
 
             {/* For completed */}
-            {todo.completed && (
+            {todo?.completed && (
               <strong className="has-text-success">Done</strong>
             )}
             {' by '}
-            <a href="mailto:Sincere@april.biz">{user.name}</a>
+            <a href="mailto:Sincere@april.biz">{user?.name}</a>
           </p>
         </div>
       </div>
