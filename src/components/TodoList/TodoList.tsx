@@ -10,8 +10,8 @@ export const TodoList: React.FC = () => {
   const todos = useAppSelector(state => state.todos);
   const search = useAppSelector(state => state.filter.query);
   const status = useAppSelector(state => state.filter.status);
-  const currentTodo = useAppSelector(state => state.currentTodo);
 
+  const currentTodo = useAppSelector(state => state.currentTodo);
   const [isLoader, setIsLoader] = useState(true);
 
   const dispatch = useAppDispatch();
@@ -51,11 +51,14 @@ export const TodoList: React.FC = () => {
     }
   }
 
+  const [temp, setTemp] = useState(false);
+
   const handleClickTodo = async (userId: number, id: number) => {
     const user = await getUser(userId);
     const todo = todos.find(todo => todo.id === id);
 
     dispatch(addCurrentTodo({ todo, user }));
+    setTemp(true);
   };
 
   return (
@@ -90,9 +93,7 @@ export const TodoList: React.FC = () => {
               <tr
                 data-cy="todo"
                 key={id}
-                className={
-                  currentTodo?.todo.id === id ? 'has-background-info-light' : ''
-                }
+                className={'has-background-info-light'}
               >
                 <td className="is-vcentered">{id}</td>
 

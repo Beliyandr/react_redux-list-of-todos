@@ -4,9 +4,11 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { CurrentTodoType, removeCurrentTodo } from '../../features/currentTodo';
 
 export const TodoModal: React.FC = () => {
-  const { user, todo } = useAppSelector<CurrentTodoType>(
+  const currentTodo = useAppSelector<CurrentTodoType>(
     state => state.currentTodo,
   );
+  if (!currentTodo) return null;
+  const { todo, user } = currentTodo;
   const dispatch = useAppDispatch();
   const [isLoader, setIsLoader] = useState(true);
 
@@ -14,6 +16,7 @@ export const TodoModal: React.FC = () => {
     if (user === null) {
       setIsLoader(true);
     }
+
     setIsLoader(false);
   }, [user]);
 
@@ -48,7 +51,7 @@ export const TodoModal: React.FC = () => {
 
           <p className="block" data-cy="modal-user">
             {/* For not completed */}
-            {!todo?.completed && (
+            {todo?.completed && (
               <strong className="has-text-danger">Planned</strong>
             )}
 
