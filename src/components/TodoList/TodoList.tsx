@@ -123,9 +123,11 @@ export const TodoList: React.FC = () => {
                   >
                     <span className="icon">
                       <i
-                        className={classNames('far fa-eye', {
-                          'fa-eye-slash': currentTodo?.todo?.id === id,
-                        })}
+                        className={
+                          currentTodo?.todo?.id === id
+                            ? 'fa-eye-slash'
+                            : 'far fa-eye'
+                        }
                       />
                     </span>
                   </button>
