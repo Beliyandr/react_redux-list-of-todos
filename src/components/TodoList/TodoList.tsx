@@ -54,7 +54,7 @@ export const TodoList: React.FC = () => {
   const handleClickTodo = async (userId: number, id: number) => {
     const user = await getUser(userId);
     const todo = todos.find(todo => todo.id === id);
-    if (!todo) return;
+
     dispatch(addCurrentTodo({ todo, user }));
   };
 

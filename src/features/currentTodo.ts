@@ -2,12 +2,12 @@ import { User } from './../types/User';
 import { createSlice } from '@reduxjs/toolkit';
 import { Todo } from '../types/Todo';
 
-// export type CurrentTodoType = {
-//   todo: Todo;
-//   user?: User;
-// } | null;
+export type CurrentTodoType = {
+  todo: Todo | null;
+  user?: User | null;
+};
 
-const initialState = null;
+const initialState: CurrentTodoType = { todo: null, user: null };
 
 export const currentTodoSlice = createSlice({
   name: 'currentTodo',
@@ -17,7 +17,7 @@ export const currentTodoSlice = createSlice({
       return action.payload;
     },
     removeCurrentTodo: () => {
-      return null;
+      return initialState;
     },
   },
 });

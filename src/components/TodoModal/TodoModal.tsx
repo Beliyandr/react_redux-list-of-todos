@@ -8,7 +8,7 @@ export const TodoModal: React.FC = () => {
   if (!currentTodo) return null;
   const { todo, user } = currentTodo;
   const dispatch = useAppDispatch();
-  const [isLoader, setIsLoader] = useState(true);
+  const [isLoader, setIsLoader] = useState(false);
 
   useEffect(() => {
     if (user === null) {
@@ -30,7 +30,7 @@ export const TodoModal: React.FC = () => {
             className="modal-card-title has-text-weight-medium"
             data-cy="modal-header"
           >
-            Todo {todo && todo?.id}
+            Todo {todo && todo.id}
           </div>
 
           {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
@@ -49,12 +49,12 @@ export const TodoModal: React.FC = () => {
 
           <p className="block" data-cy="modal-user">
             {/* For not completed */}
-            {todo?.completed && (
+            {!todo!.completed && (
               <strong className="has-text-danger">Planned</strong>
             )}
 
             {/* For completed */}
-            {todo?.completed && (
+            {todo!.completed && (
               <strong className="has-text-success">Done</strong>
             )}
             {' by '}

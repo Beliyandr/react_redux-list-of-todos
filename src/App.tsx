@@ -26,7 +26,7 @@ export const App = () => {
     };
 
     fetchTodos();
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
@@ -43,7 +43,7 @@ export const App = () => {
           </div>
         </div>
       </div>
-      {currentTodo && <TodoModal />}
+      {currentTodo && currentTodo.todo && <TodoModal />}
     </>
   );
 };
