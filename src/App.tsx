@@ -20,7 +20,7 @@ export const App = () => {
 
         dispatch(setTodos(todos));
       } catch (error) {
-        console.error(error);
+        throw new Error('error');
       } finally {
         setIsLoader(false);
       }
