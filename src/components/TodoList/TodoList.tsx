@@ -12,18 +12,18 @@ export const TodoList: React.FC = () => {
   const status = useAppSelector(state => state.filter.status);
 
   const currentTodo = useAppSelector(state => state.currentTodo);
-  const [isLoader, setIsLoader] = useState(true);
+  const [isLoader, setIsLoader] = useState(false);
 
   const dispatch = useAppDispatch();
 
   const [filteredTodos, setFilteredTodos] = useState<Todo[] | []>([]);
 
   useEffect(() => {
-    setIsLoader(false);
+    setIsLoader(true);
 
     const result = filteredTodosByStatus(status);
     setFilteredTodos(result);
-    setIsLoader(true);
+    setIsLoader(false);
   }, [todos, search, status]);
 
   function filteredTodosByStatus(statusName: string): Todo[] | [] {
@@ -51,14 +51,11 @@ export const TodoList: React.FC = () => {
     }
   }
 
-  const [temp, setTemp] = useState(false);
-
   const handleClickTodo = async (userId: number, id: number) => {
     const user = await getUser(userId);
     const todo = todos.find(todo => todo.id === id);
-
+    if (!todo) return;
     dispatch(addCurrentTodo({ todo, user }));
-    setTemp(true);
   };
 
   return (
@@ -88,12 +85,14 @@ export const TodoList: React.FC = () => {
         )}
 
         <tbody>
-          {isLoader &&
+          {!isLoader &&
             filteredTodos.map(({ id, title, completed, userId }) => (
               <tr
                 data-cy="todo"
                 key={id}
-                className={'has-background-info-light'}
+                className={classNames({
+                  'has-background-info-light': currentTodo?.todo?.id === id,
+                })}
               >
                 <td className="is-vcentered">{id}</td>
 
@@ -125,7 +124,7 @@ export const TodoList: React.FC = () => {
                     <span className="icon">
                       <i
                         className={classNames('far fa-eye', {
-                          'fa-eye-slash': currentTodo?.todo.id === id,
+                          'fa-eye-slash': currentTodo?.todo?.id === id,
                         })}
                       />
                     </span>
