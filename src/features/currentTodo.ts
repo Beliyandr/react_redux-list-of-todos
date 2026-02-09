@@ -1,5 +1,5 @@
 import { User } from './../types/User';
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Todo } from '../types/Todo';
 
 export type CurrentTodoType = {
@@ -13,7 +13,7 @@ export const currentTodoSlice = createSlice({
   name: 'currentTodo',
   initialState,
   reducers: {
-    addCurrentTodo: (state, action) => {
+    addCurrentTodo: (state, action: PayloadAction<CurrentTodoType>) => {
       return action.payload;
     },
     removeCurrentTodo: () => {

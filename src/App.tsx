@@ -20,6 +20,7 @@ export const App = () => {
 
         dispatch(setTodos(todos));
       } catch (error) {
+        console.error(error);
       } finally {
         setIsLoader(false);
       }
@@ -43,7 +44,7 @@ export const App = () => {
               </div>
 
               <div className="block">
-                {isLoader ? <Loader /> : <TodoList />}
+                <TodoList />
               </div>
             </div>
           )}

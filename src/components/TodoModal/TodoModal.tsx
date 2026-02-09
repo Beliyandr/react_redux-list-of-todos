@@ -49,16 +49,16 @@ export const TodoModal: React.FC = () => {
 
           <p className="block" data-cy="modal-user">
             {/* For not completed */}
-            {!todo!.completed && (
+            {!todo?.completed && (
               <strong className="has-text-danger">Planned</strong>
             )}
 
             {/* For completed */}
-            {todo!.completed && (
+            {todo?.completed && (
               <strong className="has-text-success">Done</strong>
             )}
             {' by '}
-            <a href="mailto:Sincere@april.biz">{user?.name}</a>
+            <a href={user?.email}>{user?.name}</a>
           </p>
         </div>
       </div>

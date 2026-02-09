@@ -4,6 +4,7 @@ import { setQuery, setStatus } from '../../features/filter';
 
 export const TodoFilter: React.FC = () => {
   const search = useAppSelector(state => state.filter.query);
+  const status = useAppSelector(state => state.filter.status);
   const dispatch = useAppDispatch();
 
   const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -21,7 +22,11 @@ export const TodoFilter: React.FC = () => {
     >
       <p className="control">
         <span className="select">
-          <select data-cy="statusSelect" onChange={handleStatusChange}>
+          <select
+            data-cy="statusSelect"
+            onChange={handleStatusChange}
+            value={status}
+          >
             <option value="all">All</option>
             <option value="active">Active</option>
             <option value="completed">Completed</option>
