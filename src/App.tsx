@@ -32,15 +32,21 @@ export const App = () => {
     <>
       <div className="section">
         <div className="container">
-          <div className="box">
-            <h1 className="title">Todos:</h1>
+          {isLoader ? (
+            <Loader />
+          ) : (
+            <div className="box">
+              <h1 className="title">Todos:</h1>
 
-            <div className="block">
-              <TodoFilter />
+              <div className="block">
+                <TodoFilter />
+              </div>
+
+              <div className="block">
+                {isLoader ? <Loader /> : <TodoList />}
+              </div>
             </div>
-
-            <div className="block">{isLoader ? <Loader /> : <TodoList />}</div>
-          </div>
+          )}
         </div>
       </div>
       {currentTodo && currentTodo.todo && <TodoModal />}

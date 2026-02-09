@@ -52,10 +52,12 @@ export const TodoList: React.FC = () => {
   }
 
   const handleClickTodo = async (userId: number, id: number) => {
-    const user = await getUser(userId);
-    const todo = todos.find(todo => todo.id === id);
+    try {
+      const user = await getUser(userId);
+      const todo = todos.find(todo => todo.id === id);
 
-    dispatch(addCurrentTodo({ todo, user }));
+      dispatch(addCurrentTodo({ todo, user }));
+    } catch (error) {}
   };
 
   return (
@@ -123,11 +125,12 @@ export const TodoList: React.FC = () => {
                   >
                     <span className="icon">
                       <i
-                        className={
+                        className={classNames(
+                          'far',
                           currentTodo?.todo?.id === id
                             ? 'fa-eye-slash'
-                            : 'far fa-eye'
-                        }
+                            : 'fa-eye',
+                        )}
                       />
                     </span>
                   </button>

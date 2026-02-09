@@ -5,17 +5,17 @@ import { removeCurrentTodo } from '../../features/currentTodo';
 
 export const TodoModal: React.FC = () => {
   const currentTodo = useAppSelector(state => state.currentTodo);
-  if (!currentTodo) return null;
-  const { todo, user } = currentTodo;
   const dispatch = useAppDispatch();
-  const [isLoader, setIsLoader] = useState(false);
+
+  const { todo, user } = currentTodo;
+  const [isLoader, setIsLoader] = useState(true);
 
   useEffect(() => {
     if (user === null) {
       setIsLoader(true);
+    } else {
+      setIsLoader(false);
     }
-
-    setIsLoader(false);
   }, [user]);
 
   return (
@@ -30,7 +30,7 @@ export const TodoModal: React.FC = () => {
             className="modal-card-title has-text-weight-medium"
             data-cy="modal-header"
           >
-            Todo {todo && todo.id}
+            Todo #{todo && todo.id}
           </div>
 
           {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
