@@ -1,27 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Loader } from '../Loader';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { CurrentTodoType, removeCurrentTodo } from '../../features/currentTodo';
+import { removeCurrentTodo } from '../../features/currentTodo';
 
 export const TodoModal: React.FC = () => {
-  const currentTodo = useAppSelector<CurrentTodoType>(
-    state => state.currentTodo,
-  );
-
-  if (!currentTodo) {
-    return null;
-  }
+  const currentTodo = useAppSelector(state => state.currentTodo);
+  const dispatch = useAppDispatch();
 
   const { todo, user } = currentTodo;
-  const dispatch = useAppDispatch();
   const [isLoader, setIsLoader] = useState(true);
 
   useEffect(() => {
     if (user === null) {
       setIsLoader(true);
+    } else {
+      setIsLoader(false);
     }
-
-    setIsLoader(false);
   }, [user]);
 
   return (
@@ -36,7 +30,7 @@ export const TodoModal: React.FC = () => {
             className="modal-card-title has-text-weight-medium"
             data-cy="modal-header"
           >
-            Todo {todo && todo.id}
+            Todo #{todo && todo.id}
           </div>
 
           {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
@@ -55,7 +49,7 @@ export const TodoModal: React.FC = () => {
 
           <p className="block" data-cy="modal-user">
             {/* For not completed */}
-            {todo?.completed && (
+            {!todo?.completed && (
               <strong className="has-text-danger">Planned</strong>
             )}
 
@@ -64,7 +58,7 @@ export const TodoModal: React.FC = () => {
               <strong className="has-text-success">Done</strong>
             )}
             {' by '}
-            <a href="mailto:Sincere@april.biz">{user?.name}</a>
+            <a href={user?.email}>{user?.name}</a>
           </p>
         </div>
       </div>

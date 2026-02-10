@@ -12,18 +12,15 @@ export const TodoList: React.FC = () => {
   const status = useAppSelector(state => state.filter.status);
 
   const currentTodo = useAppSelector(state => state.currentTodo);
-  const [isLoader, setIsLoader] = useState(true);
+  const [isLoader, setIsLoader] = useState(false);
 
   const dispatch = useAppDispatch();
 
   const [filteredTodos, setFilteredTodos] = useState<Todo[] | []>([]);
 
   useEffect(() => {
-    setIsLoader(false);
-
     const result = filteredTodosByStatus(status);
     setFilteredTodos(result);
-    setIsLoader(true);
   }, [todos, search, status]);
 
   function filteredTodosByStatus(statusName: string): Todo[] | [] {
@@ -51,14 +48,15 @@ export const TodoList: React.FC = () => {
     }
   }
 
-  const [temp, setTemp] = useState(false);
-
   const handleClickTodo = async (userId: number, id: number) => {
-    const user = await getUser(userId);
-    const todo = todos.find(todo => todo.id === id);
-
-    dispatch(addCurrentTodo({ todo, user }));
-    setTemp(true);
+    try {
+      const user = await getUser(userId);
+      const todo = todos.find(todo => todo.id === id);
+      if (!todo) return;
+      dispatch(addCurrentTodo({ todo, user }));
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -88,51 +86,55 @@ export const TodoList: React.FC = () => {
         )}
 
         <tbody>
-          {isLoader &&
-            filteredTodos.map(({ id, title, completed, userId }) => (
-              <tr
-                data-cy="todo"
-                key={id}
-                className={'has-background-info-light'}
-              >
-                <td className="is-vcentered">{id}</td>
+          {filteredTodos.map(({ id, title, completed, userId }) => (
+            <tr
+              data-cy="todo"
+              key={id}
+              className={classNames({
+                'has-background-info-light': currentTodo?.todo?.id === id,
+              })}
+            >
+              <td className="is-vcentered">{id}</td>
 
-                <td className="is-vcentered">
-                  {completed && (
-                    <span className="icon" data-cy="iconCompleted">
-                      <i className="fas fa-check " />
-                    </span>
+              <td className="is-vcentered">
+                {completed && (
+                  <span className="icon" data-cy="iconCompleted">
+                    <i className="fas fa-check " />
+                  </span>
+                )}
+              </td>
+
+              <td className="is-vcentered is-expanded">
+                <p
+                  className={classNames(
+                    completed ? 'has-text-success' : 'has-text-danger',
                   )}
-                </td>
+                >
+                  {title}
+                </p>
+              </td>
 
-                <td className="is-vcentered is-expanded">
-                  <p
-                    className={classNames(
-                      completed ? 'has-text-success' : 'has-text-danger',
-                    )}
-                  >
-                    {title}
-                  </p>
-                </td>
-
-                <td className="has-text-right is-vcentered">
-                  <button
-                    data-cy="selectButton"
-                    className="button"
-                    type="button"
-                    onClick={() => handleClickTodo(userId, id)}
-                  >
-                    <span className="icon">
-                      <i
-                        className={classNames('far fa-eye', {
-                          'fa-eye-slash': currentTodo?.todo.id === id,
-                        })}
-                      />
-                    </span>
-                  </button>
-                </td>
-              </tr>
-            ))}
+              <td className="has-text-right is-vcentered">
+                <button
+                  data-cy="selectButton"
+                  className="button"
+                  type="button"
+                  onClick={() => handleClickTodo(userId, id)}
+                >
+                  <span className="icon">
+                    <i
+                      className={classNames(
+                        'far',
+                        currentTodo?.todo?.id === id
+                          ? 'fa-eye-slash'
+                          : 'fa-eye',
+                      )}
+                    />
+                  </span>
+                </button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </>

@@ -1,23 +1,23 @@
 import { User } from './../types/User';
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Todo } from '../types/Todo';
 
 export type CurrentTodoType = {
-  todo: Todo;
-  user?: User;
-} | null;
+  todo: Todo | null;
+  user?: User | null;
+};
 
-const initialState: CurrentTodoType = null;
+const initialState: CurrentTodoType = { todo: null, user: null };
 
 export const currentTodoSlice = createSlice({
   name: 'currentTodo',
   initialState,
   reducers: {
-    addCurrentTodo: (state, action) => {
+    addCurrentTodo: (state, action: PayloadAction<CurrentTodoType>) => {
       return action.payload;
     },
     removeCurrentTodo: () => {
-      return null;
+      return initialState;
     },
   },
 });
