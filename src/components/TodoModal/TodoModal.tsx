@@ -7,7 +7,11 @@ export const TodoModal: React.FC = () => {
   const currentTodo = useAppSelector<CurrentTodoType>(
     state => state.currentTodo,
   );
-  if (!currentTodo) return null;
+
+  if (!currentTodo) {
+    return null;
+  }
+
   const { todo, user } = currentTodo;
   const dispatch = useAppDispatch();
   const [isLoader, setIsLoader] = useState(true);
